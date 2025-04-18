@@ -6,10 +6,7 @@ require "uri"
 module HaveIBeenPwnedApi
   class Client
     class << self
-      def get(path, params = {})
-        uri = URI("#{config.base_url}#{path}")
-        uri.query = URI.encode_www_form(params) unless params.empty?
-
+      def get(uri)
         http = Net::HTTP.new(uri.hostname, uri.port)
         http.use_ssl = true
 
