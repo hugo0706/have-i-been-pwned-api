@@ -22,7 +22,7 @@ module HaveIBeenPwnedApi
       private
 
       def config
-        HaveIBeenPwnedApi.configuration
+        HaveIBeenPwnedApi.config
       end
     end
   end

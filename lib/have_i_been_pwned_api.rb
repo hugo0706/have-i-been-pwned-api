@@ -8,11 +8,12 @@ module HaveIBeenPwnedApi
   autoload :Error, "have_i_been_pwned_api/error"
 
   class << self
-    attr_accessor :configuration
+    attr_accessor :config
   end
 
   def self.configure
-    self.configuration ||= Configuration.new
-    yield(configuration) if block_given?
+    self.config ||= Configuration.new
+    yield(config) if block_given?
+    config.validate!
   end
 end

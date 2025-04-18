@@ -6,12 +6,14 @@ module HaveIBeenPwnedApi
     FREE_URL = "https://api.pwnedpasswords.com/range/"
 
     attr_accessor :api_key, :free
-    attr_reader :base_url
 
     def initialize
       @api_key = nil
       @free = true
-      @base_url = select_base_url
+    end
+
+    def base_url
+      free ? FREE_URL : PREMIUM_URL
     end
 
     def ==(other)
@@ -23,10 +25,9 @@ module HaveIBeenPwnedApi
       instance_variables.map { |iv| [iv, instance_variable_get(iv)] }
     end
 
-    private
-
-    def select_base_url
-      free ? FREE_URL : PREMIUM_URL
+    def validate!
+      require_key_error = "A HIBP API key is required for non free use"
+      raise HaveIBeenPwnedApi::Error, require_key_error if api_key.nil? && !free
     end
   end
 end
