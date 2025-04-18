@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "have_i_been_pwned_api"
+require "dotenv/load"
+
+# You can add fixtures and/or initialization code here to make experimenting
+# with your gem easier. You can also use a different console, if you like.
+
+HaveIBeenPwnedApi.configure do |config|
+  config.api_key = ENV["HIBP_API_KEY"]
+end
+
+require "irb"
+IRB.start(__FILE__)
