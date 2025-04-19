@@ -9,12 +9,7 @@ module HaveIBeenPwnedApi
 
       class << self
         def call(**kwargs)
-          params = {}
-          kwargs.map do |key, value|
-            next unless ALLOWED_PARAMS.include?(key)
-            key = HaveIBeenPwnedApi::Utils::Strings.camelize_param(key.to_s)
-            params[key] = value unless value.nil?
-          end
+          params = parse_optional_params(kwargs, ALLOWED_PARAMS)
 
           Client.get(uri(params))
         end
