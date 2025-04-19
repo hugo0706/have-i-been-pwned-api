@@ -9,34 +9,18 @@ require_relative "breaches/data_classes"
 require_relative "breaches/latest_breach"
 require_relative "breaches/subscribed_domains"
 
+require_relative "../../utils/strings"
+
 module HaveIBeenPwnedApi
   module Breaches
-    def self.latest_breach
-      puts LatestBreach.call
-    end
-
-    def self.breached_account(account:, **kwargs)
-      puts BreachedAccount.call(account: account, **kwargs)
-    end
-
-    def self.breach(name:)
-      puts Breach.call(name: name)
-    end
-
-    def self.breached_domain(domain:)
-      puts BreachedDomain.call(domain: domain)
-    end
-
-    def self.breaches(*kwargs)
-      puts Breaches.call(**kwargs)
-    end
-
-    def self.data_classes
-      puts DataClasses.call
-    end
-
-    def self.subscribed_domains
-      puts SubscribedDomains.call
+    constants.each do |c|
+      klass = const_get(c)
+      next unless klass.is_a?(Class)
+      raise Error unless klass.respond_to?(:call)
+      method_name = HaveIBeenPwnedApi::Utils::Strings.class_to_camel_case(c.to_s)
+      define_singleton_method(method_name.to_sym) do |**kwargs|
+        puts klass.call(**kwargs)
+      end
     end
   end
 end
