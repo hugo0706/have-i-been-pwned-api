@@ -13,3 +13,5 @@
 Gemfile.lock
 .env
 .ruby-lsp
+.vscode
+/vendor/

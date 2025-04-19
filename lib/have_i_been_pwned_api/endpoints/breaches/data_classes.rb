@@ -4,7 +4,7 @@ require_relative "../endpoint"
 
 module HaveIBeenPwnedApi
   module Breaches
-    class Latest < Endpoint
+    class DataClasses < Endpoint
       class << self
         def call
           Client.get(uri)
@@ -12,14 +12,8 @@ module HaveIBeenPwnedApi
 
         private
 
-        def path
-          "latestbreach"
-        end
-
         def uri
-          uri = URI("#{endpoint_url}#{path}")
-          #uri.query = URI.encode_www_form(params) unless params.empty?
-          uri
+          URI("#{endpoint_url}dataclasses")
         end
       end
     end
