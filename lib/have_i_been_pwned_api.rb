@@ -7,6 +7,9 @@ module HaveIBeenPwnedApi
   autoload :Client, "have_i_been_pwned_api/client"
   autoload :Error, "have_i_been_pwned_api/error"
   autoload :Breaches, "have_i_been_pwned_api/endpoints/breaches"
+  autoload :Pastes, "have_i_been_pwned_api/endpoints/pastes"
+  autoload :StealerLogs, "have_i_been_pwned_api/endpoints/stealer_logs"
+  autoload :Subscription, "have_i_been_pwned_api/endpoints/subscription"
 
   class << self
     attr_accessor :config
