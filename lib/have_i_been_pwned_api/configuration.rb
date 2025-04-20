@@ -3,7 +3,7 @@
 module HaveIBeenPwnedApi
   class Configuration
     PREMIUM_URL = "https://haveibeenpwned.com/api/v3/"
-    FREE_URL = "https://api.pwnedpasswords.com/range/"
+    FREE_URL = "https://api.pwnedpasswords.com/"
 
     attr_accessor :api_key
 

@@ -6,7 +6,6 @@ require_relative "breaches/breach"
 require_relative "breaches/breached_domain"
 require_relative "breaches/breaches"
 require_relative "breaches/data_classes"
-require_relative "breaches/latest_breach"
 require_relative "breaches/subscribed_domains"
 
 require_relative "../../utils/strings"

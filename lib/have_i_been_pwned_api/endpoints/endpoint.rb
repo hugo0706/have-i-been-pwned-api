@@ -23,6 +23,7 @@ module HaveIBeenPwnedApi
         params = {}
         kwargs.map do |key, value|
           next unless allowed_params.include?(key)
+
           key = HaveIBeenPwnedApi::Utils::Strings.camelize_param(key.to_s)
           params[key] = value unless value.nil?
         end
