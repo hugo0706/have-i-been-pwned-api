@@ -13,14 +13,14 @@ module HaveIBeenPwnedApi
         request = Net::HTTP::Get.new(uri.request_uri)
         set_headers(request, headers)
 
-        http.request(request).body
+        http.request(request)
       end
 
       private
 
       def set_headers(request, headers)
         request["hibp-api-key"] = config.api_key
-        request["user-agent"] = "test"
+        request["user-agent"] = config.user_agent
 
         return if headers.empty?
 

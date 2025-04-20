@@ -25,6 +25,10 @@ module HaveIBeenPwnedApi
       instance_variables.map { |iv| [iv, instance_variable_get(iv)] }
     end
 
+    def user_agent
+      "have_i_been_pwned_api gem v#{VERSION}"
+    end
+
     private
 
     def check_access_allowed!(type)
