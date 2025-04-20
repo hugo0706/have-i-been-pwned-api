@@ -8,6 +8,7 @@ module HaveIBeenPwnedApi
           klass = mod.const_get(c)
           next unless klass.is_a?(Class)
           raise Error unless klass.respond_to?(:call)
+
           method_name = HaveIBeenPwnedApi::Utils::Strings.class_to_camel_case(c.to_s)
           mod.define_singleton_method(method_name.to_sym) do |**kwargs|
             puts klass.call(**kwargs)
