@@ -30,7 +30,7 @@ RSpec.describe HaveIBeenPwnedApi::Endpoint do
 
       it "camelizes param keys and returns all params" do
         expect(described_class.send(:parse_optional_params, base_kwargs, allowed_params))
-          .to eq({ "allowed" => "param", "paramAllowed" => "param" })
+          .to eq({ "allowed" => "param", "paramallowed" => "param" })
       end
 
       context "when given also non allowed params" do
@@ -38,7 +38,7 @@ RSpec.describe HaveIBeenPwnedApi::Endpoint do
 
         it "camelizes param keys and returns only allowed params" do
           expect(described_class.send(:parse_optional_params, kwargs, allowed_params))
-            .to eq({ "allowed" => "param", "paramAllowed" => "param" })
+            .to eq({ "allowed" => "param", "paramallowed" => "param" })
         end
       end
     end

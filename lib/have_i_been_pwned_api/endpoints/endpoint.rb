@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../../utils/strings"
-
 module HaveIBeenPwnedApi
   class Endpoint
     class << self
@@ -24,7 +22,7 @@ module HaveIBeenPwnedApi
         kwargs.map do |key, value|
           next unless allowed_params.include?(key)
 
-          key = HaveIBeenPwnedApi::Utils::Strings.camelize_param(key.to_s)
+          key = key.to_s.gsub("_", "")
           params[key] = value unless value.nil?
         end
 
