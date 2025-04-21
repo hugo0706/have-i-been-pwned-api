@@ -1,0 +1,28 @@
+{
+  "Name": "SamsungGermany",
+  "Title": "Samsung Germany Customer Tickets",
+  "Domain": "samsung.de",
+  "BreachDate": "2025-03-30",
+  "AddedDate": "2025-04-13T00:24:36Z",
+  "ModifiedDate": "2025-04-13T12:42:28Z",
+  "PwnCount": 216333,
+  "Description": "In March 2025, \u003Ca href=\"https://www.infostealers.com/article/samsung-tickets-data-leak-infostealers-strike-again-in-massive-free-dump/\" target=\"_blank\" rel=\"noopener\"\u003Edata from Samsung Germany was compromised in a data breach of their logistics provider, Spectos\u003C/a\u003E. Allegedly due to credentials being obtained by malware running on a Spectos employee's machine, the breach included 216k unique email addresses along with names, physical addresses, items purchased from Samsung Germany and related support tickets and shipping tracking numbers.",
+  "LogoPath": "https://haveibeenpwned.com/Content/Images/PwnedLogos/Samsung.png",
+  "DataClasses": [
+    "Email addresses",
+    "Names",
+    "Physical addresses",
+    "Purchases",
+    "Salutations",
+    "Shipment tracking numbers",
+    "Support tickets"
+  ],
+  "IsVerified": true,
+  "IsFabricated": false,
+  "IsSensitive": false,
+  "IsRetired": false,
+  "IsSpamList": false,
+  "IsMalware": false,
+  "IsSubscriptionFree": false,
+  "IsStealerLog": false
+}

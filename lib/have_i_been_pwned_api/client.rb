@@ -26,7 +26,7 @@ module HaveIBeenPwnedApi
 
         headers.each do |header, value|
           header = header.to_s.gsub("_", "-")
-          request[header] = value
+          request[header] = value.to_s
         end
       end
 
