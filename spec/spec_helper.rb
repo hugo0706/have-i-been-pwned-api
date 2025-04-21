@@ -3,10 +3,12 @@
 require "have_i_been_pwned_api"
 require "webmock/rspec"
 require "simplecov"
-SimpleCov.start
+require "simplecov-cobertura"
 
-require "codecov"
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
+if ENV["CI"]
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+end
+SimpleCov.start
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Ruby ${{ matrix.ruby }}
+    environment: CI
     strategy:
       matrix:
         ruby:
@@ -25,5 +26,13 @@ jobs:
         bundler-cache: true
     - name: RSpec tests
       run: bundle exec rake
+    - name: Upload coverage to codecov
+      uses: codecov/codecov-action@v5
+      with:
+        fail_ci_if_error: true
+        files: ./coverage/coverage.xml
+        name: codecov-umbrella
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
     - name: Rubocop Scan
       run: bundle exec rubocop

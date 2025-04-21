@@ -15,8 +15,8 @@ group :development, :test do
 end
 
 group :test do
-  gem "codecov", require: false
   gem "simplecov", require: false
+  gem 'simplecov-cobertura'
   gem "rspec", "~> 3.0"
   gem "webmock"
 end
