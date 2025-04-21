@@ -1,4 +1,4 @@
-name: Ruby
+name: CI
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
+    name: Build and Set up Ruby
     environment: CI
     strategy:
       matrix:
@@ -18,21 +18,49 @@ jobs:
           - '3.2.5'
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: RSpec tests
-      run: bundle exec rake
-    - name: Upload coverage to codecov
-      uses: codecov/codecov-action@v5
-      with:
-        fail_ci_if_error: true
-        files: ./coverage/coverage.xml
-        name: codecov-umbrella
-        token: ${{ secrets.CODECOV_TOKEN }}
-        verbose: true
-    - name: Rubocop Scan
-      run: bundle exec rubocop
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+  test:
+    runs-on: ubuntu-latest
+    name: RSpec Tests
+    environment: CI
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.5'
+          bundler-cache: true
+      - name: Run RSpec tests
+        run: bundle exec rake
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          files: ./coverage/coverage.xml
+          name: codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+
+  lint:
+    runs-on: ubuntu-latest
+    name: Rubocop Scan
+    environment: CI
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.5'
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rubocop
