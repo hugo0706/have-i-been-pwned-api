@@ -1,4 +1,5 @@
 # HaveIBeenPwnedApi
+[![Tests](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml/badge.svg?job=test)](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/hugo0706/have-i-been-pwned-api/branch/main/graph/badge.svg?token=LX044H2DY5)](https://codecov.io/gh/hugo0706/have-i-been-pwned-api)
 
 TODO: Delete this and the text below, and describe your gem
