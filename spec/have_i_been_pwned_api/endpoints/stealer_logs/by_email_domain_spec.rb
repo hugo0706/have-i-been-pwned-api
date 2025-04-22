@@ -19,7 +19,7 @@ RSpec.describe HaveIBeenPwnedApi::StealerLogs::ByEmailDomain do
 
       subject(:response) { described_class.call(domain: domain) }
 
-      it "builds the uri and performs the request" do
+      it "returns a hash of email aliases and arrays of emails" do
         expect(response).to eq(JSON.parse(mock_response_body))
       end
     end

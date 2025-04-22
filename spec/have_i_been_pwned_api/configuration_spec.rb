@@ -26,7 +26,9 @@ RSpec.describe HaveIBeenPwnedApi::Configuration do
       context "when endpoint type is premium" do
         it "raises an error" do
           expect { configuration.base_url_for_endpoint_type(:premium) }
-            .to raise_error(HaveIBeenPwnedApi::Error)
+            .to raise_error(HaveIBeenPwnedApi::Error) { |e|
+              expect(e.message).to eq("An HIBP API key is required for premium endpoints")
+            }
         end
       end
 

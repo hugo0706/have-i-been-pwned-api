@@ -6,6 +6,15 @@ require "json"
 
 module HaveIBeenPwnedApi
   class Client
+    ERROR_CLASSES = {
+      "400" => BadRequest,
+      "401" => Unauthorized,
+      "403" => Forbidden,
+      "404" => NotFound,
+      "429" => RateLimitExceeded,
+      "503" => ServiceUnavailable
+    }.freeze
+
     class << self
       def get(uri, headers: {})
         http = Net::HTTP.new(uri.hostname, uri.port)
@@ -16,17 +25,31 @@ module HaveIBeenPwnedApi
 
         response = http.request(request)
 
-        case response.header["content-type"]
-        when "text/plain"
-          response.body
-        when "application/json"
-          JSON.parse(response.body) if response.code == "200" && !response.body.empty?
-        else
-          JSON.parse(response.body)
-        end
+        handle_errors!(response)
+
+        parse_body(response)
       end
 
       private
+
+      def handle_errors!(resp)
+        return if resp.code == "200"
+
+        error_class = ERROR_CLASSES.fetch(resp.code, Error)
+
+        raise error_class.new(detail: resp.body)
+      end
+
+      def parse_body(resp)
+        case resp.header["content-type"]
+        when "text/plain"
+          resp.body
+        when "application/json"
+          JSON.parse(resp.body) if resp.code == "200"
+        else
+          resp.body
+        end
+      end
 
       def set_headers(request, headers)
         request["hibp-api-key"] = config.api_key

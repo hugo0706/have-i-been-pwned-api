@@ -9,7 +9,7 @@ RSpec.describe HaveIBeenPwnedApi::StealerLogs::ByWebsiteDomain do
     context "given a domain" do
       let(:domain) { "domain.com" }
       let(:mock_response_body) do
-        File.read("spec/fixtures/endpoints/stealer_logs/by_email_domain_response.json")
+        File.read("spec/fixtures/endpoints/stealer_logs/by_website_domain_response.json")
       end
 
       before do
@@ -19,7 +19,8 @@ RSpec.describe HaveIBeenPwnedApi::StealerLogs::ByWebsiteDomain do
 
       subject(:response) { described_class.call(domain: domain) }
 
-      it "builds the uri and performs the request" do
+      it "returns an array of emails" do
+        expect(response).to be_an(Array)
         expect(response).to eq(JSON.parse(mock_response_body))
       end
     end

@@ -34,7 +34,7 @@ module HaveIBeenPwnedApi
     def check_access_allowed!(type)
       return unless api_key.nil? && type == :premium
 
-      raise HaveIBeenPwnedApi::Error, "An HIBP API key is required for premium endpoints"
+      raise Error.new(message: "An HIBP API key is required for premium endpoints")
     end
   end
 end
