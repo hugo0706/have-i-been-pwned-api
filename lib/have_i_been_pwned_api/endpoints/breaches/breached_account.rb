@@ -9,9 +9,12 @@ module HaveIBeenPwnedApi
 
       class << self
         def call(account:, **kwargs)
+          truncate = kwargs[:truncate_response] != false
           params = parse_optional_params(kwargs, ALLOWED_PARAMS)
 
-          Client.get(uri(account, params))
+          data = Client.get(uri(account, params))
+
+          Models::BreachCollection.new(data, truncated: truncate)
         end
 
         private

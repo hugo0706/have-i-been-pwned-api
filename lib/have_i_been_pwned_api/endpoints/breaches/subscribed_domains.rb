@@ -7,7 +7,8 @@ module HaveIBeenPwnedApi
     class SubscribedDomains < Endpoint
       class << self
         def call
-          Client.get(uri)
+          data = Client.get(uri)
+          Array(data).map { |d| Models::Domain.new(d) }
         end
 
         private

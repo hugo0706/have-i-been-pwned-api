@@ -13,11 +13,11 @@ module HaveIBeenPwnedApi
       def self.call(password:, add_padding: false)
         digest = hash_password(password)
 
-        response = Client.get(uri(digest[..4]),
+        data = Client.get(uri(digest[..4]),
                               headers: { add_padding: add_padding })
 
         partial_hash = Regexp.escape(digest[5..])
-        count = response.body.match(/#{partial_hash}:(\d+)/) { $1.to_i }
+        count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
 
         count.nil? ? false : true
       end

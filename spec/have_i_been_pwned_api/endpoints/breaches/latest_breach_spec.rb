@@ -17,8 +17,15 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::LatestBreach do
 
     subject(:response) { described_class.call }
 
-    it "builds the uri and performs the request" do
-      expect(response.body).to eq(mock_response_body)
+    it "returns a Breach object with the correct data" do
+      expect(response).to be_a(HaveIBeenPwnedApi::Models::Breach)
+      expect(response.name).to        eq("SamsungGermany")
+      expect(response.domain).to      eq("samsung.de")
+      expect(response.pwn_count).to   eq(216_333)
+      expect(response.added_date).to  be_a(DateTime)
+      expect(response.data_classes).to eq(["Email addresses", "Names", "Physical addresses",
+                                           "Purchases", "Salutations", "Shipment tracking numbers",
+                                           "Support tickets"])
     end
   end
 end

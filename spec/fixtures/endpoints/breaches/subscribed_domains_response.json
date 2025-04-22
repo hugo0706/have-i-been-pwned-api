@@ -2,7 +2,7 @@
   {
     "DomainName": "domain.com",
     "PwnCount": 20102,
-    "PwnCountExcludingSpamLists": 15012,
+    "PwnCountExcludingSpamLists": null,
     "PwnCountExcludingSpamListsAtLastSubscriptionRenewal": 15012,
     "NextSubscriptionRenewal": "2025-05-18T11:52:59"
   },

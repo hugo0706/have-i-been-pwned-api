@@ -19,8 +19,14 @@ RSpec.describe HaveIBeenPwnedApi::Pastes::PasteAccount do
 
       subject(:response) { described_class.call(account: account) }
 
-      it "builds the uri and performs the request" do
-        expect(response.body).to eq(mock_response_body)
+      it "returns a PasteCollection object" do
+        expect(response).to be_a(HaveIBeenPwnedApi::Models::PasteCollection)
+        expect(response.pastes).to all(be_a(HaveIBeenPwnedApi::Models::Paste))
+        expect(response.pastes.first.source).to eq("Pastebin")
+        expect(response.pastes.first.id).to eq("8Q0BvKD8")
+        expect(response.pastes.first.title).to eq("syslog")
+        expect(response.pastes.first.date).to be_a(DateTime)
+        expect(response.pastes.first.email_count).to eq(139)
       end
     end
   end

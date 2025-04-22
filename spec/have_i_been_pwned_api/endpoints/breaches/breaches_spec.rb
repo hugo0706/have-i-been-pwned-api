@@ -18,8 +18,16 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::Breaches do
 
       subject(:response) { described_class.call }
 
-      it "builds the uri and performs the request" do
-        expect(response.body).to eq(mock_response_body)
+      it "returns a collection of breaches" do
+        expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachCollection)
+        expect(response.breaches).to all(be_a(HaveIBeenPwnedApi::Models::Breach))
+        expect(response.breaches.length).to eq(882)
+        expect(response.breaches.first.name).to          eq("000webhost")
+        expect(response.breaches.first.domain).to        eq("000webhost.com")
+        expect(response.breaches.first.pwn_count).to     eq(14_936_670)
+        expect(response.breaches.first.added_date).to    be_a(DateTime)
+        expect(response.breaches.first.data_classes).to  eq(["Email addresses", "IP addresses",
+                                                             "Names", "Passwords"])
       end
     end
 
@@ -34,8 +42,16 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::Breaches do
 
       subject(:response) { described_class.call(**params) }
 
-      it "builds the uri and performs the request only with allowed headers" do
-        expect(response.body).to eq(mock_response_body)
+      it "performs the request only with allowed headers and returns a collection of breaches" do
+        expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachCollection)
+        expect(response.breaches).to all(be_a(HaveIBeenPwnedApi::Models::Breach))
+        expect(response.breaches.length).to eq(882)
+        expect(response.breaches.first.name).to          eq("000webhost")
+        expect(response.breaches.first.domain).to        eq("000webhost.com")
+        expect(response.breaches.first.pwn_count).to     eq(14_936_670)
+        expect(response.breaches.first.added_date).to    be_a(DateTime)
+        expect(response.breaches.first.data_classes).to  eq(["Email addresses", "IP addresses",
+                                                             "Names", "Passwords"])
       end
     end
   end

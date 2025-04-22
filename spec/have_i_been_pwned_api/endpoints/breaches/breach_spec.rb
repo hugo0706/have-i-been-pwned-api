@@ -20,8 +20,14 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::Breach do
 
       subject(:response) { described_class.call(name: name) }
 
-      it "builds the uri and performs the request" do
-        expect(response.body).to eq(mock_response_body)
+      it "returns a Breach object with the correct data" do
+        expect(response).to be_a(HaveIBeenPwnedApi::Models::Breach)
+        expect(response.name).to        eq("Adobe")
+        expect(response.domain).to      eq("adobe.com")
+        expect(response.pwn_count).to   eq(152_445_165)
+        expect(response.added_date).to  be_a(DateTime)
+        expect(response.data_classes).to eq(["Email addresses", "Password hints",
+                                             "Passwords", "Usernames"])
       end
     end
   end

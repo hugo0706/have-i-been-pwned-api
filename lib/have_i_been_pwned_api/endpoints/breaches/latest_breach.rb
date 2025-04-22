@@ -7,7 +7,8 @@ module HaveIBeenPwnedApi
     class LatestBreach < Endpoint
       class << self
         def call
-          Client.get(uri)
+          data = Client.get(uri)
+          Models::Breach.new(data)
         end
 
         private

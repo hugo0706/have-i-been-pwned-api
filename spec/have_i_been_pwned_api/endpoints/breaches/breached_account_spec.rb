@@ -24,31 +24,44 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::BreachedAccount do
 
         subject(:response) { described_class.call(account: account) }
 
-        it "builds the uri and performs the request" do
-          expect(response.body).to eq(mock_truncated_response_body)
+        it "returns a collection of TruncatedBreaches" do
+          expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachCollection)
+          expect(response.breaches).to all(be_a(HaveIBeenPwnedApi::Models::TruncatedBreach))
+          expect(response.breaches.length).to eq(3)
+          expect(response.breaches.first.name).to eq("Adobe")
         end
       end
 
       context "when extra params are given" do
-        let(:params) do
-          {
-            domain: "domain",
-            include_unverified: true,
-            truncate_response: false,
-            other_param: 1
-          }
-        end
+        context "when truncate_response is set to false" do
+          let(:params) do
+            {
+              domain: "domain",
+              include_unverified: true,
+              truncate_response: false,
+              other_param: 1
+            }
+          end
 
-        before do
-          stub_request(:get, "https://haveibeenpwned.com/api/v3/breachedaccount/#{account}")
-            .with(query: { domain: "domain", includeunverified: true, truncateresponse: false })
-            .to_return(body: mock_response_body, headers: { "Content-Type" => "application/json" })
-        end
+          before do
+            stub_request(:get, "https://haveibeenpwned.com/api/v3/breachedaccount/#{account}")
+              .with(query: { domain: "domain", includeunverified: true, truncateresponse: false })
+              .to_return(body: mock_response_body, headers: { "Content-Type" => "application/json" })
+          end
 
-        subject(:response) { described_class.call(account: account, **params) }
+          subject(:response) { described_class.call(account: account, **params) }
 
-        it "builds the uri and performs the request only with allowed headers" do
-          expect(response.body).to eq(mock_response_body)
+          it "performs the request only with allowed headers and returns a collection of breaches" do
+            expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachCollection)
+            expect(response.breaches).to all(be_a(HaveIBeenPwnedApi::Models::Breach))
+            expect(response.breaches.length).to eq(2)
+            expect(response.breaches.first.name).to eq("Adobe")
+            expect(response.breaches.first.domain).to        eq("adobe.com")
+            expect(response.breaches.first.pwn_count).to     eq(152_445_165)
+            expect(response.breaches.first.added_date).to    be_a(DateTime)
+            expect(response.breaches.first.data_classes).to  eq(["Email addresses", "Password hints",
+                                                                 "Passwords", "Usernames"])
+          end
         end
       end
     end

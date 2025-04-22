@@ -18,7 +18,7 @@ RSpec.describe HaveIBeenPwnedApi::Subscription::Status do
     subject(:response) { described_class.call }
 
     it "builds the uri and performs the request" do
-      expect(response.body).to eq(mock_response_body)
+      expect(response).to eq(JSON.parse(mock_response_body))
     end
   end
 end

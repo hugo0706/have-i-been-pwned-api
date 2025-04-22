@@ -7,7 +7,8 @@ module HaveIBeenPwnedApi
     class Breach < Endpoint
       class << self
         def call(name:)
-          Client.get(uri(name))
+          data = Client.get(uri(name))
+          HaveIBeenPwnedApi::Models::Breach.new(data)
         end
 
         private

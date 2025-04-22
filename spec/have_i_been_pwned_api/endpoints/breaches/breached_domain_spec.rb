@@ -20,8 +20,11 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::BreachedDomain do
 
       subject(:response) { described_class.call(domain: domain) }
 
-      it "builds the uri and performs the request" do
-        expect(response.body).to eq(mock_response_body)
+      it "returns a BreachedDomain object" do
+        expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachedDomain)
+        expect(response.entries.length).to eq(3)
+        expect(response.entries["alias2"]).to all(be_a(HaveIBeenPwnedApi::Models::TruncatedBreach))
+        expect(response.entries["alias2"][1].name).to eq("Gawker")
       end
     end
   end

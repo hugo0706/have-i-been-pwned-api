@@ -18,7 +18,13 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::SubscribedDomains do
     subject(:response) { described_class.call }
 
     it "builds the uri and performs the request" do
-      expect(response.body).to eq(mock_response_body)
+      expect(response).to be_an(Array)
+      expect(response).to all(be_an(HaveIBeenPwnedApi::Models::Domain))
+      expect(response.first.domain_name).to eq("domain.com")
+      expect(response.first.pwn_count).to eq(20_102)
+      expect(response.first.pwn_count_excluding_spam_lists).to eq(nil)
+      expect(response.first.pwn_count_excluding_spam_lists_at_last_subscription_renewal).to eq(15_012)
+      expect(response.first.next_subscription_renewal).to be_a(DateTime)
     end
   end
 end

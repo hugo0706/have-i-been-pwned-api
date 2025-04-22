@@ -17,8 +17,9 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::DataClasses do
 
     subject(:response) { described_class.call }
 
-    it "builds the uri and performs the request" do
-      expect(response.body).to eq(mock_response_body)
+    it "returns an array of strings with all data classes" do
+      expect(response).to be_an(Array)
+      expect(response.length).to eq(149)
     end
   end
 end

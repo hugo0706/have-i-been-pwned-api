@@ -2,6 +2,7 @@
 
 require "net/http"
 require "uri"
+require "json"
 
 module HaveIBeenPwnedApi
   class Client
@@ -13,7 +14,16 @@ module HaveIBeenPwnedApi
         request = Net::HTTP::Get.new(uri.request_uri)
         set_headers(request, headers)
 
-        http.request(request)
+        response = http.request(request)
+
+        case response.header["content-type"]
+        when "text/plain"
+          response.body
+        when "application/json"
+          JSON.parse(response.body) if response.code == "200" && !response.body.empty?
+        else
+          JSON.parse(response.body)
+        end
       end
 
       private

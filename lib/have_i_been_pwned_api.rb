@@ -11,6 +11,7 @@ module HaveIBeenPwnedApi
   autoload :StealerLogs, "have_i_been_pwned_api/endpoints/stealer_logs"
   autoload :Subscription, "have_i_been_pwned_api/endpoints/subscription"
   autoload :PwnedPasswords, "have_i_been_pwned_api/endpoints/pwned_passwords"
+  autoload :Models, "have_i_been_pwned_api/models"
 
   class << self
     attr_accessor :config

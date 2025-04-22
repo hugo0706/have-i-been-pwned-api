@@ -16,12 +16,13 @@ RSpec.describe HaveIBeenPwnedApi::Client do
         stub_request(:get, /test.com/)
           .with(headers: { "hibp-api-key": config.api_key,
                            "user-agent": user_agent })
+          .to_return(body: "{}")
       end
 
       it "makes a get request to uri with default headers" do
         response = described_class.get(uri)
 
-        expect(response.code).to eq "200"
+        expect(response).to eq({})
       end
     end
 
@@ -40,12 +41,13 @@ RSpec.describe HaveIBeenPwnedApi::Client do
                            "user-agent": user_agent,
                            "add-padding": true,
                            "header": 123 })
+          .to_return(body: "{}")
       end
 
       it "makes a get request to uri with default headers" do
         response = described_class.get(uri, headers: headers)
 
-        expect(response.code).to eq "200"
+        expect(response).to eq({})
       end
     end
   end

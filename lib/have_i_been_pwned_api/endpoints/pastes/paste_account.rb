@@ -7,7 +7,8 @@ module HaveIBeenPwnedApi
     class PasteAccount < Endpoint
       class << self
         def call(account:)
-          Client.get(uri(account))
+          data = Client.get(uri(account))
+          Models::PasteCollection.new(data)
         end
 
         private

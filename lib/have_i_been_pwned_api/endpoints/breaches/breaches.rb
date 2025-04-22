@@ -11,7 +11,8 @@ module HaveIBeenPwnedApi
         def call(**kwargs)
           params = parse_optional_params(kwargs, ALLOWED_PARAMS)
 
-          Client.get(uri(params))
+          data = Client.get(uri(params))
+          Models::BreachCollection.new(data, truncated: false)
         end
 
         private

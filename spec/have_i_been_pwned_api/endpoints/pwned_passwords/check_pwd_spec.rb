@@ -24,7 +24,7 @@ RSpec.describe HaveIBeenPwnedApi::PwnedPasswords::CheckPwd do
     before do
       stub_request(:get, "https://api.pwnedpasswords.com/range/#{sha1_hashed_pwd[..4]}")
         .with(headers: { 'add-padding': add_padding })
-        .to_return(body: response_body)
+        .to_return(body: response_body, headers: { "content-type": "text/plain" })
     end
 
     context "when given just a password" do
