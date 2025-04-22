@@ -6,30 +6,32 @@ require "digest"
 module HaveIBeenPwnedApi
   module PwnedPasswords
     class CheckPwd < Endpoint
-      def self.type
-        :free
-      end
+      class << self
+        def type
+          :free
+        end
 
-      def self.call(password:, add_padding: false)
-        digest = hash_password(password)
+        def call(password:, add_padding: false)
+          digest = hash_password(password)
 
-        data = Client.get(uri(digest[..4]),
-                              headers: { add_padding: add_padding })
+          data = Client.get(uri(digest[..4]),
+                                headers: { add_padding: add_padding })
 
-        partial_hash = Regexp.escape(digest[5..])
-        count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
+          partial_hash = Regexp.escape(digest[5..])
+          count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
 
-        count.nil? ? false : true
-      end
+          count.nil? ? false : true
+        end
 
-      private
+        private
 
-      def self.hash_password(password)
-        Digest::SHA1.hexdigest(password).upcase
-      end
+        def hash_password(password)
+          Digest::SHA1.hexdigest(password).upcase
+        end
 
-      def self.uri(digest_chars)
-        URI("#{endpoint_url}range/#{digest_chars}")
+        def uri(digest_chars)
+          URI("#{endpoint_url}range/#{digest_chars}")
+        end
       end
     end
   end
