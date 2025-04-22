@@ -7,7 +7,8 @@ module HaveIBeenPwnedApi
     class Status < Endpoint
       class << self
         def call
-          Client.get(uri)
+          data = Client.get(uri)
+          Models::SubscriptionStatus.new(data)
         end
 
         private

@@ -9,5 +9,6 @@ module HaveIBeenPwnedApi
     autoload :Domain, "have_i_been_pwned_api/models/breaches/domain"
     autoload :Paste, "have_i_been_pwned_api/models/pastes/paste"
     autoload :PasteCollection, "have_i_been_pwned_api/models/pastes/paste_collection"
+    autoload :SubscriptionStatus, "have_i_been_pwned_api/models/subscription/subscription_status"
   end
 end
