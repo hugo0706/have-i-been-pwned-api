@@ -9,7 +9,7 @@ module HaveIBeenPwnedApi
           next unless klass.is_a?(Class)
           raise Error unless klass.respond_to?(:call)
 
-          method_name = HaveIBeenPwnedApi::Utils::Strings.underscore(c.to_s)
+          method_name = Utils::Strings.underscore(c.to_s)
           mod.define_singleton_method(method_name.to_sym) do |**kwargs|
             klass.call(**kwargs)
           end

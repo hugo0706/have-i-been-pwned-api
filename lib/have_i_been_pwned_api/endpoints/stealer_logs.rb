@@ -9,6 +9,6 @@ require_relative "../../utils/autoloader"
 
 module HaveIBeenPwnedApi
   module StealerLogs
-    HaveIBeenPwnedApi::Utils::Autoloader.define_endpoint_methods(self)
+    Utils::Autoloader.define_endpoint_methods(self)
   end
 end

@@ -8,7 +8,7 @@ module HaveIBeenPwnedApi
       class << self
         def call(name:)
           data = Client.get(uri(name))
-          HaveIBeenPwnedApi::Models::Breach.new(data)
+          Models::Breach.new(data)
         end
 
         private

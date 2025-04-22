@@ -10,7 +10,7 @@ module HaveIBeenPwnedApi
       DATETIME_FIELDS = %w[NextSubscriptionRenewal].freeze
 
       ATTRS.each do |k|
-        attr_reader HaveIBeenPwnedApi::Utils::Strings.underscore(k).to_sym
+        attr_reader Utils::Strings.underscore(k).to_sym
       end
 
       def initialize(attrs)

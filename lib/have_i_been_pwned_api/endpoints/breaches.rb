@@ -13,6 +13,6 @@ require_relative "../../utils/autoloader"
 
 module HaveIBeenPwnedApi
   module Breaches
-    HaveIBeenPwnedApi::Utils::Autoloader.define_endpoint_methods(self)
+    Utils::Autoloader.define_endpoint_methods(self)
   end
 end
