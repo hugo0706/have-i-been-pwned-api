@@ -3,6 +3,7 @@
 module HaveIBeenPwnedApi
   class Error < StandardError
     attr_reader :detail
+
     DEFAULT_MESSAGE = "An unexpected error occurred"
 
     # @param message [String] custom error message

@@ -5,9 +5,8 @@ require "webmock/rspec"
 require "simplecov"
 require "simplecov-cobertura"
 
-if ENV["CI"]
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
-end
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter if ENV["CI"]
+
 SimpleCov.start
 
 RSpec.configure do |config|

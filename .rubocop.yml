@@ -7,5 +7,14 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 
+Style/Documentation:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context']
