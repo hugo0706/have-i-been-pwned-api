@@ -13,7 +13,8 @@ module HaveIBeenPwnedApi
         private
 
         def uri(domain)
-          URI("#{endpoint_url}stealerlogsbywebsitedomain/#{domain}")
+          encoded_domain = URI.encode_www_form_component(domain)
+          URI("#{endpoint_url}stealerlogsbywebsitedomain/#{encoded_domain}")
         end
       end
     end

@@ -13,7 +13,8 @@ module HaveIBeenPwnedApi
         private
 
         def uri(email)
-          URI("#{endpoint_url}stealerlogsbyemail/#{email}")
+          encoded_email = URI.encode_www_form_component(email)
+          URI("#{endpoint_url}stealerlogsbyemail/#{encoded_email}")
         end
       end
     end

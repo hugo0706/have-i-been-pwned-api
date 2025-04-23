@@ -15,7 +15,8 @@ module HaveIBeenPwnedApi
         private
 
         def uri(domain)
-          URI("#{endpoint_url}breacheddomain/#{domain}")
+          encoded_domain = URI.encode_www_form_component(domain)
+          URI("#{endpoint_url}breacheddomain/#{encoded_domain}")
         end
       end
     end

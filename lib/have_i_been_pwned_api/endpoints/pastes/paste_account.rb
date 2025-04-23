@@ -14,7 +14,8 @@ module HaveIBeenPwnedApi
         private
 
         def uri(account)
-          URI("#{endpoint_url}pasteaccount/#{account}")
+          encoded_account = URI.encode_www_form_component(account)
+          URI("#{endpoint_url}pasteaccount/#{encoded_account}")
         end
       end
     end

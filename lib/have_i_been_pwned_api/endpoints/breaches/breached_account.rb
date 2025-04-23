@@ -20,7 +20,8 @@ module HaveIBeenPwnedApi
         private
 
         def uri(account, params)
-          uri = URI("#{endpoint_url}breachedaccount/#{account}")
+          encoded_account = URI.encode_www_form_component(account)
+          uri = URI("#{endpoint_url}breachedaccount/#{encoded_account}")
           uri.query = URI.encode_www_form(params) unless params.empty?
           uri
         end
