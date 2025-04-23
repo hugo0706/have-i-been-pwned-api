@@ -17,7 +17,7 @@ RSpec.describe HaveIBeenPwnedApi::Configuration do
       context "when endpoint type is free" do
         it "returns free url" do
           result = configuration.base_url_for_endpoint_type(:free)
-          expect(result).to eq(described_class::FREE_URL)
+          expect(result).to eq(described_class::PWNED_PWD_URL)
         end
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe HaveIBeenPwnedApi::Configuration do
       context "when endpoint type is free" do
         it "returns free url" do
           result = configuration.base_url_for_endpoint_type(:free)
-          expect(result).to eq(described_class::FREE_URL)
+          expect(result).to eq(described_class::PWNED_PWD_URL)
         end
       end
     end

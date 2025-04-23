@@ -3,7 +3,7 @@
 module HaveIBeenPwnedApi
   class Configuration
     PREMIUM_URL = "https://haveibeenpwned.com/api/v3/"
-    FREE_URL = "https://api.pwnedpasswords.com/"
+    PWNED_PWD_URL = "https://api.pwnedpasswords.com/"
 
     attr_accessor :api_key
 
@@ -13,7 +13,7 @@ module HaveIBeenPwnedApi
 
     def base_url_for_endpoint_type(type)
       check_access_allowed!(type)
-      type == :free ? FREE_URL : PREMIUM_URL
+      type == :free ? PWNED_PWD_URL : PREMIUM_URL
     end
 
     def ==(other)
