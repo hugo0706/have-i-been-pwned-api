@@ -16,3 +16,4 @@ Gemfile.lock
 .vscode
 /vendor/
 coverage
+todo
