@@ -1,5 +1,5 @@
 # HaveIBeenPwnedApi
-[![Tests](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml/badge.svg?job=test)](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml)
+[![CI](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml/badge.svg)](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/hugo0706/have-i-been-pwned-api/branch/main/graph/badge.svg?token=LX044H2DY5)](https://codecov.io/gh/hugo0706/have-i-been-pwned-api)
 
 A simple ruby wrapper for [haveibeenpwned's V3 API](https://haveibeenpwned.com/API/v3).
