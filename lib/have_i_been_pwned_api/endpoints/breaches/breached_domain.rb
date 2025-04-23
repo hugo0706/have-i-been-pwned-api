@@ -10,6 +10,8 @@ module HaveIBeenPwnedApi
           data = Client.get(uri(domain))
 
           Models::BreachedDomain.new(data)
+        rescue NotFound
+          Models::BreachedDomain.new({})
         end
 
         private

@@ -9,6 +9,8 @@ module HaveIBeenPwnedApi
         def call(account:)
           data = Client.get(uri(account))
           Models::PasteCollection.new(data)
+        rescue NotFound
+          Models::PasteCollection.new({})
         end
 
         private

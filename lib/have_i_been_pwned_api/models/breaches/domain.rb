@@ -1,5 +1,7 @@
 #frozen_string_literal: true
 
+require "date"
+
 module HaveIBeenPwnedApi
   module Models
     class Domain

@@ -8,9 +8,8 @@ module HaveIBeenPwnedApi
       attr_reader :breaches
 
       def initialize(data, truncated: true)
-        @truncated = truncated
         @breaches = data.map do |h|
-          if @truncated
+          if truncated
             TruncatedBreach.new(h["Name"])
           else
             Breach.new(h)

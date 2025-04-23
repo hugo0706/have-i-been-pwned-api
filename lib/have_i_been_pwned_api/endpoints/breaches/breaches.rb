@@ -13,6 +13,8 @@ module HaveIBeenPwnedApi
 
           data = Client.get(uri(params))
           Models::BreachCollection.new(data, truncated: false)
+        rescue NotFound
+          Models::BreachCollection.new({})
         end
 
         private

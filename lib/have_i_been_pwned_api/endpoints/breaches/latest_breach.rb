@@ -9,6 +9,8 @@ module HaveIBeenPwnedApi
         def call
           data = Client.get(uri)
           Models::Breach.new(data)
+        rescue NotFound
+          Models::Breach.new({})
         end
 
         private

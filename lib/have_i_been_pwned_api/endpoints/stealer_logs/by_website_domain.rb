@@ -8,6 +8,8 @@ module HaveIBeenPwnedApi
       class << self
         def call(domain:)
           Client.get(uri(domain))
+        rescue NotFound
+          []
         end
 
         private
