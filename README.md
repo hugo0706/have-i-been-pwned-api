@@ -23,10 +23,15 @@ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 # Setup
 
 Configure the API client on an initializer
+You can configure the follwing parameters of the gem:
+| Parameter      | Required  | Type      | Description |
+|----------------|-----------|-----------|-------------|
+| `api_key`      | `False`   | `String`  | Required only if using other than [PwnedPassword endpoints](#pwned-passwords) |
+| `user_agent`   | `False`   | `String`  | User agent used on requests to API. Required by HIBP. Defaults to `"have_i_been_pwned_api gem [current gem version]"` |
 ```ruby
 HaveIBeenPwnedApi.configure do |config|
-  # Required only if using other than PwnedPassword endpoints
   config.api_key = ENV['HIBP_API_KEY']
+  config.user_agent = "your_custom_user_agent"
 end
 ```
 

@@ -61,7 +61,8 @@ RSpec.describe HaveIBeenPwnedApi::Configuration do
   describe "#attributes" do
     it "returns and array of attribute name and value pairs" do
       conf = described_class.new
-      expect(conf.attributes).to eq([[:@api_key, nil]])
+      expect(conf.attributes).to eq([[:@api_key, nil],
+                                     [:@user_agent, "have_i_been_pwned_api gem v0.1.0"]])
     end
   end
 end
