@@ -15,12 +15,12 @@ module HaveIBeenPwnedApi
           digest = hash_password(password)
 
           data = Client.get(uri(digest[..4]),
-                                headers: { add_padding: add_padding })
+                            headers: { add_padding: add_padding })
 
           partial_hash = Regexp.escape(digest[5..])
           count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
 
-          count.nil? ? false : true
+          count.nil? ? 0 : count
         end
 
         private

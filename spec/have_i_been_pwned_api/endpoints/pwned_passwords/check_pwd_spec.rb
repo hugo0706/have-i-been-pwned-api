@@ -33,7 +33,7 @@ RSpec.describe HaveIBeenPwnedApi::PwnedPasswords::CheckPwd do
 
       context "when the password has been compromised" do
         it "returns true" do
-          expect(response).to eq(true)
+          expect(response).to eq(21_302_061)
         end
       end
 
@@ -46,7 +46,7 @@ RSpec.describe HaveIBeenPwnedApi::PwnedPasswords::CheckPwd do
         end
 
         it "returns false" do
-          expect(response).to eq(false)
+          expect(response).to eq(0)
         end
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe HaveIBeenPwnedApi::PwnedPasswords::CheckPwd do
 
       context "when the password has been compromised" do
         it "returns true" do
-          expect(response).to eq(true)
+          expect(response).to eq(21_302_061)
         end
       end
     end
