@@ -17,13 +17,16 @@ module HaveIBeenPwnedApi
           data = Client.get(uri(digest[..4]),
                             headers: { add_padding: add_padding })
 
-          partial_hash = Regexp.escape(digest[5..])
-          count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
-
-          count.nil? ? 0 : count
+          count_password_appereances(digest, data)
         end
 
         private
+
+        def count_password_appereances(digest, data)
+          partial_hash = Regexp.escape(digest[5..])
+          count = data.match(/#{partial_hash}:(\d+)/) { $1.to_i }
+          count.nil? ? 0 : count
+        end
 
         def hash_password(password)
           Digest::SHA1.hexdigest(password).upcase
