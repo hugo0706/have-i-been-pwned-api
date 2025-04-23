@@ -41,11 +41,11 @@ module HaveIBeenPwnedApi
       end
 
       def parse_body(resp)
-        case resp.header["content-type"]
-        when "text/plain"
+        case resp.header["content-type"].downcase
+        when /text\/plain/
           resp.body
-        when "application/json"
-          JSON.parse(resp.body) if resp.code == "200"
+        when /application\/json/
+          JSON.parse(resp.body)
         else
           resp.body
         end
