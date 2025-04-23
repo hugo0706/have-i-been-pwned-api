@@ -99,18 +99,25 @@ This API endpoint returns a list of all breaches a particular account has been i
 |----------------|-----------|-----------|-------------|
 | `account`       | `True`   | `String`  | (e.g. `"email@mail.com"`) Not case-sensitive. Represents the account searched for |
 | `truncate_response` | `False`   | `Boolean`  | Default `true`. By default reduces the size of responses by 98% returning a collection of TruncatedBreach. If set to `false` it will return a collection of full Breach objects  |
+ `domain` | `False`   | `string`  | e.g. `"adobe.com"`) Filters the result set to only breaches against the domain specified. It is possible that one site (and consequently domain), is compromised on multiple occasions.  |
+  `include_unverified` | `False`   | `Boolean`  | Returns breaches that have been flagged as "unverified". By default, both verified and unverified breaches are returned when performing a search |
 ```ruby
-collection = HaveIBeenPwnedApi::Breaches.breached_account(account: "mail@gmail.com")
-# => #<HaveIBeenPwnedApi::Models::BreachCollection:0x0000772dac01df50
 # By default returns a BreachCollection of TruncatedBreaches
+collection = HaveIBeenPwnedApi::Breaches.breached_account(account: "mail@gmail.com")
+# => #<HaveIBeenPwnedApi::Models::BreachCollection
 collection.breaches.first.class
 # => HaveIBeenPwnedApi::Models::TruncatedBreach
+```
+If no breach is found an empty BreachCollection is returned
+```ruby
+<HaveIBeenPwnedApi::Models::BreachCollection @breaches=[]>
 ```
 If you set `truncate_response` to `false`, you will get a collection of full breach models.
 ```ruby
 collection = HaveIBeenPwnedApi::Breaches.breached_account(account: "mail@gmail.com",
-                                                          truncate_response: false)
-# => #<HaveIBeenPwnedApi::Models::BreachCollection:0x0000772dac01df50
+                                                          truncate_response: false,
+                                                          domain: "example.com", include_unverified: false))
+# => #<HaveIBeenPwnedApi::Models::BreachCollection
 collection.breaches.first.class
 # => HaveIBeenPwnedApi::Models::Breach
 ```
@@ -121,7 +128,12 @@ This API returns email addresses on a given domain and the breaches they've appe
 # Returns a HaveIBeenPwnedApi::Models::BreachedDomain object
 breached_domain = HaveIBeenPwnedApi::Breaches.breached_domain(domain: "mydomain.com")
 # => HaveIBeenPwnedApi::Models::BreachedDomain
-
+breached_domain.entries.count
+# => 2
+```
+If it does not find a breach for the given domain, an empty BreachedDomain object is returned
+```ruby
+<HaveIBeenPwnedApi::Models::BreachedDomain @entries={}>
 ```
 See more about the [BreachedDomain model](#breacheddomain) and how to access its values in Models section
 
@@ -142,7 +154,7 @@ Domains that have been successfully added to [your domain search dashboard](http
 # Returns an array of Domain objects
 domains = HaveIBeenPwnedApi::Breaches.subscribed_domains
 # =>
-# [#<HaveIBeenPwnedApi::Models::Domain:0x000075d9ca3bc008,
+# [#<HaveIBeenPwnedApi::Models::Domain,
 #   ...] 
 ```
 See more about the [Domain model](#domain) and how to access its values in Models section
@@ -157,7 +169,7 @@ Returns all the `Pastes` where a given account is present, stored on a `PasteCol
 ```ruby
 paste_collection = HaveIBeenPwnedApi::Pastes.paste_account(account: "test@gmail.com")
 => 
-#<HaveIBeenPwnedApi::Models::PasteCollection:0x00007af9f32f17d8
+#<HaveIBeenPwnedApi::Models::PasteCollection
 ```
 See more about the [PasteCollection model](#pastecollection) and how to access its values in Models section
 
@@ -203,7 +215,7 @@ This API returns details of the current subscription
 ```ruby
 HaveIBeenPwnedApi::Subscription.status
 # => 
-# #<HaveIBeenPwnedApi::Models::SubscriptionStatus:0x000075984ac513d8
+# #<HaveIBeenPwnedApi::Models::SubscriptionStatus
 #  @description="Domains with up to 25 breached addresses each, and a rate limited API key allowing 10 email address searches per minute",
 #  @domain_search_max_breached_accounts=25,
 #  @rpm=10,
@@ -224,26 +236,51 @@ A wrapper around an array of `Breach` or `TruncatedBreach` objects. Includes `En
 ---
 ### Breach
 Represents the full details of a single breach returned by the Have I Been Pwned API.
+
+#### Example
+```ruby
+<HaveIBeenPwnedApi::Models::Breach
+ @added_date=#<DateTime: 2025-04-13T00:24:36+00:00 ((2460779j,1476s,0n),+0s,2299161j)>,
+ @breach_date=#<Date: 2025-03-30 ((2460765j,0s,0n),+0s,2299161j)>,
+ @data_classes=["Email addresses", "Names", "Physical addresses", "Purchases", "Salutations", "Shipment tracking numbers", "Support tickets"],
+ @description=
+  "In March 2025, <a href=\"https://www.infostealers.com/article/samsung-tickets-data-leak-infostealers-strike-again-in-massive-free-dump/\" target=\"_blank\" rel=\"noopener\">data from Samsung Germany was compromised in a data breach of their logistics provider, Spectos</a>. Allegedly due to credentials being obtained by malware running on a Spectos employee's machine, the breach included 216k unique email addresses along with names, physical addresses, items purchased from Samsung Germany and related support tickets and shipping tracking numbers.",
+ @domain="samsung.de",
+ @is_fabricated=false,
+ @is_malware=false,
+ @is_retired=false,
+ @is_sensitive=false,
+ @is_spam_list=false,
+ @is_stealer_log=false,
+ @is_subscription_free=false,
+ @is_verified=true,
+ @logo_path="https://haveibeenpwned.com/Content/Images/PwnedLogos/Samsung.png",
+ @modified_date=#<DateTime: 2025-04-13T12:42:28+00:00 ((2460779j,45748s,0n),+0s,2299161j)>,
+ @name="SamsungGermany",
+ @pwn_count=216333,
+ @title="Samsung Germany Customer Tickets">
+```
+
 #### Attribute readers
 
-- **`name`** (`String`): Internal, Pascal-cased unique breach identifier.  
-- **`title`** (`String`): User-friendly breach title (may change over time).  
-- **`domain`** (`String`): Primary website domain where the breach occurred.  
-- **`breach_date`** (`Date`): Date the breach happened (ISO 8601).  
-- **`added_date`** (`DateTime`): When the breach was added to HIBP (ISO 8601).  
-- **`modified_date`** (`DateTime`): Last time the breach record was updated (ISO 8601).  
-- **`pwn_count`** (`Integer`): Number of accounts loaded into the system for this breach.  
-- **`description`** (`String`): HTML overview of the incident (may include links, formatting).  
-- **`data_classes`** (`Array<String>`): List of data types compromised (e.g. `"Email addresses"`, `"Passwords"`, etc.).  
-- **Boolean flags** (`true`/`false`):  
-  - `is_verified`  
-  - `is_fabricated`  
-  - `is_sensitive`  
-  - `is_retired`  
-  - `is_spam_list`  
-  - `is_malware`  
-  - `is_subscription_free`  
-  - `is_stealer_log`  
+- **`name`** (`String`): Internal, Pascal-cased unique breach identifier.
+- **`title`** (`String`): User-friendly breach title .
+- **`domain`** (`String`): Primary website domain where the breach occurred.
+- **`breach_date`** (`Date`): Date the breach happened.
+- **`added_date`** (`DateTime`): When the breach was added to HIBP.
+- **`modified_date`** (`DateTime`): Last time the breach record was updated.
+- **`pwn_count`** (`Integer`): Number of accounts loaded into the system for this breach.
+- **`description`** (`String`): HTML overview of the incident (may include links, formatting).
+- **`data_classes`** (`Array<String>`): List of data types compromised (e.g. `"Email addresses"`, `"Passwords"`, etc.).
+- **Boolean flags** (`true`/`false`):
+  - `is_verified`
+  - `is_fabricated`
+  - `is_sensitive`
+  - `is_retired`
+  - `is_spam_list`
+  - `is_malware`
+  - `is_subscription_free`
+  - `is_stealer_log`
   Indicate special breach characteristics (verified, fabricated, sensitive, etc.).  
 - **`logo_path`** (`String`): URL to the breach’s PNG logo.  
 
@@ -259,17 +296,22 @@ A simplified Breach model used when only breach names are returned (e.g. truncat
 ### BreachedDomain
 Represents the result of a domain-scoped breach lookup, where each email alias is mapped to the list of breach names in which it appears.
 
+#### Example
+```ruby
+<HaveIBeenPwnedApi::Models::BreachedDomain @entries={"alias1"=>["Adobe"], "alias2"=>["Adobe", "Gawker", "Stratfor"], "alias3"=>["AshleyMadison"]}>
+```
+
 #### Attribute readers
 
 - **`entries`** (`Hash<String, Array<String>>`):  
   A hash mapping each email local-part (e.g. `"alias1"` for `alias1@example.com`) to an array of Pascal-cased breach names:  
-  ```ruby
-  {
-    "alias1" => ["Adobe"],
-    "alias2" => ["Adobe", "Gawker", "Stratfor"],
-    "alias3" => ["AshleyMadison"]
-  }
-  ```
+```ruby
+{
+  "alias1" => ["Adobe"],
+  "alias2" => ["Adobe", "Gawker", "Stratfor"],
+  "alias3" => ["AshleyMadison"]
+}
+```
 
 ---
 ### Domain
@@ -286,6 +328,14 @@ Represents the result of a domain-scoped breach lookup, where each email alias i
 ### PasteCollection
 A wrapper around an array of `Paste` objects returned by the paste-related endpoints. Includes `Enumerable` so you can iterate, filter, and query just like a standard Ruby collection.
 
+#### Example
+```ruby
+<HaveIBeenPwnedApi::Models::PasteCollection
+ @pastes=
+  [#<HaveIBeenPwnedApi::Models::Paste @date=#<DateTime: 2016-06-22T11:06:26+00:00 ((2457562j,39986s,0n),+0s,2299161j)>, @domain=nil, @email_count=323, @id="Y8k3SJjg", @source="Pastebin", @title=nil>,
+   #<HaveIBeenPwnedApi::Models::Paste @date=#<DateTime: 2016-02-18T15:51:55+00:00 ((2457437j,57115s,0n),+0s,2299161j)>, @domain=nil, @email_count=2225, @id="X1tzUFdD", @source="Pastebin", @title=nil>, ...
+```
+
 #### Attribute readers
 
 - **`pastes`** (`Array<HaveIBeenPwnedApi::Models::Paste>`):  
@@ -294,6 +344,11 @@ A wrapper around an array of `Paste` objects returned by the paste-related endpo
 ---
 ### Paste
 Represents a single paste record.
+
+#### Example
+```ruby
+<HaveIBeenPwnedApi::Models::Paste @date=#<DateTime: 2014-03-04T19:14:54+00:00 ((2456721j,69294s,0n),+0s,2299161j)>, @domain=nil, @email_count=139, @id="8Q0BvKD8", @source="Pastebin", @title="syslog"
+```
 
 #### Attribute readers
 
@@ -306,6 +361,16 @@ Represents a single paste record.
 ---
 ### SubscriptionStatus
 Encapsulates your current subscription details and rate limits.
+
+#### Example
+```ruby
+<HaveIBeenPwnedApi::Models::SubscriptionStatus
+ @description="Domains with up to 25 breached addresses each, and a rate limited API key allowing 10 email address searches per minute",
+ @domain_search_max_breached_accounts=25,
+ @rpm=10,
+ @subscribed_until=#<DateTime: 2025-05-18T11:52:59+00:00 ((2460814j,42779s,0n),+0s,2299161j)>,
+ @subscription_name="Pwned 1">
+```
 
 #### Attribute readers
 
