@@ -36,9 +36,11 @@ RSpec.describe HaveIBeenPwnedApi::Endpoint do
       context "when given also non allowed params" do
         let(:kwargs) { base_kwargs.merge({ param_not_allowed: "param" }) }
 
-        it "camelizes param keys and returns only allowed params" do
-          expect(described_class.send(:parse_optional_params, kwargs, allowed_params))
-            .to eq({ "allowed" => "param", "paramallowed" => "param" })
+        it "raises an Error" do
+          expect { described_class.send(:parse_optional_params, kwargs, allowed_params) }
+            .to raise_error(HaveIBeenPwnedApi::Error) do |e|
+              expect(e.message).to eq("Invalid argument param_not_allowed")
+            end
         end
       end
     end

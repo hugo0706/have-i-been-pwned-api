@@ -32,7 +32,7 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::Breaches do
     end
 
     context "when params are given" do
-      let(:params) { { domain: "domain", is_spam_list: true, other_param: 1 } }
+      let(:params) { { domain: "domain", is_spam_list: true } }
 
       before do
         stub_request(:get, "https://haveibeenpwned.com/api/v3/breaches")

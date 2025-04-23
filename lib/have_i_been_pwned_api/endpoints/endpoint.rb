@@ -20,7 +20,7 @@ module HaveIBeenPwnedApi
       def parse_optional_params(kwargs, allowed_params)
         params = {}
         kwargs.map do |key, value|
-          next unless allowed_params.include?(key)
+          raise Error, "Invalid argument #{key}" unless allowed_params.include?(key)
 
           key = key.to_s.gsub("_", "")
           params[key] = value unless value.nil?

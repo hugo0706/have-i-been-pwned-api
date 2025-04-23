@@ -38,8 +38,7 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::BreachedAccount do
             {
               domain: "domain",
               include_unverified: true,
-              truncate_response: false,
-              other_param: 1
+              truncate_response: false
             }
           end
 

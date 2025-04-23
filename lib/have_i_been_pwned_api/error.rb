@@ -7,7 +7,7 @@ module HaveIBeenPwnedApi
 
     # @param message [String] custom error message
     # @param detail  [String, nil] raw response body or other debug info
-    def initialize(message: nil, detail: nil)
+    def initialize(message = nil, detail: nil)
       super(message || self.class::DEFAULT_MESSAGE)
       @detail = detail
     end
