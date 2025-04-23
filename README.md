@@ -1,34 +1,39 @@
 # HaveIBeenPwnedApi
 [![CI](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml/badge.svg)](https://github.com/hugo0706/have-i-been-pwned-api/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/hugo0706/have-i-been-pwned-api/branch/main/graph/badge.svg?token=LX044H2DY5)](https://codecov.io/gh/hugo0706/have-i-been-pwned-api)
+[![Gem Version](https://badge.fury.io/rb/have_i_been_pwned_api.svg)](https://badge.fury.io/rb/have_i_been_pwned_api)
 
-A simple ruby wrapper for [haveibeenpwned's V3 API](https://haveibeenpwned.com/API/v3).
+A simple ruby wrapper for [Have I Been Pwned v3 API](https://haveibeenpwned.com/API/v3).
+
+It simplifies the interaction with all the endpoints included in version 3 of their API.
 
 # Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle add 'have_i_been_pwned_api'
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+gem install 'have_i_been_pwned_api'
 ```
 
 # Setup
 
-Configure the API client on an initializer
-You can configure the follwing parameters of the gem:
+First configure the API client on an initializer, you can either use a default setup or configure your own.
+You can configure the follwing optional parameters of the gem:
 | Parameter      | Required  | Type      | Description |
 |----------------|-----------|-----------|-------------|
 | `api_key`      | `False`   | `String`  | Required only if using other than [PwnedPassword endpoints](#pwned-passwords) |
 | `user_agent`   | `False`   | `String`  | User agent used on requests to API. Required by HIBP. Defaults to `"have_i_been_pwned_api gem [current gem version]"` |
+
 ```ruby
+# If you only want access to pwdned passwords endpoint and default config
+HaveIBeenPwnedApi.configure
+
+# If you want to specify your api key and user agent
 HaveIBeenPwnedApi.configure do |config|
   config.api_key = ENV['HIBP_API_KEY']
   config.user_agent = "your_custom_user_agent"
