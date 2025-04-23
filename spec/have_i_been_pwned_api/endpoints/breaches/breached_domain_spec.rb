@@ -23,8 +23,7 @@ RSpec.describe HaveIBeenPwnedApi::Breaches::BreachedDomain do
       it "returns a BreachedDomain object" do
         expect(response).to be_an(HaveIBeenPwnedApi::Models::BreachedDomain)
         expect(response.entries.length).to eq(3)
-        expect(response.entries["alias2"]).to all(be_a(HaveIBeenPwnedApi::Models::TruncatedBreach))
-        expect(response.entries["alias2"][1].name).to eq("Gawker")
+        expect(response.entries["alias2"][1]).to eq("Gawker")
       end
     end
   end

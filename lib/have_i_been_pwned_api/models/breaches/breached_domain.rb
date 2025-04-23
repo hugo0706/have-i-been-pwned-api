@@ -8,7 +8,7 @@ module HaveIBeenPwnedApi
       def initialize(attrs)
         @entries = {}
         attrs.each do |account_alias, breaches|
-          @entries[account_alias] = breaches.map { |b| TruncatedBreach.new(b) }
+          @entries[account_alias] = breaches
         end
       end
     end
